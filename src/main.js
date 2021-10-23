@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
-import { createStore } from "vuex";
 import App from "./App.vue";
+import store from "./store/index.js";
 
 const app = createApp(App);
 const router = createRouter({
@@ -14,12 +14,6 @@ const router = createRouter({
       component: () => import("./views/Home.vue"),
     },
   ],
-});
-
-const store = createStore({
-  state() {
-    return {};
-  },
 });
 
 app.use(router);
