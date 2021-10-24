@@ -9,16 +9,19 @@ const express = require('express');
 const morgan = require('morgan');
 const userRoutes = require('./routes/userRoutes');
 const messageRoutes = require('./routes/messageRoutes');
+const friendRoutes = require('./routes/friendRoutes');
+const conversationRoutes = require('./routes/conversationRoutes');
 const ErrorHandler = require('./utilities/ErrorHandler');
 const errorController = require('./controllers/errorController.js');
 
 const corsOptions = {
   origin: 'http://localhost:3000',
+  credentials: true,
 };
 const app = express();
 app.use(express.json());
-app.use(cors(corsOptions));
 app.use(cookieParser());
+app.use(cors(corsOptions));
 // app.use(express.json({ limit: '10kb' }));
 app.use(mongoSanitize());
 app.use(xss());
@@ -36,7 +39,6 @@ app.use(express.static('public'));
 
 app.use(function (req, res, next) {
   console.log(new Date());
-  console.log(req.cookies);
   next();
 });
 
@@ -44,6 +46,8 @@ app.use(morgan('tiny'));
 
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/messages', messageRoutes);
+app.use('/api/v1/conversations', conversationRoutes);
+app.use('/api/v1/friends', friendRoutes);
 
 app.all('*', function (req, res, next) {
   next(new ErrorHandler(404, 'no such route found on this api '));

@@ -8,7 +8,7 @@ const sendCookie = function (res, token) {
   res.cookie('jwt', token, {
     // secure: process.env.NODE_ENV === 'production' ? true : false,
     // httpOnly: true,
-    // expires: 60 * 60 * 1000,
+    expires: 60 * 60 * 1000,
   });
 };
 
@@ -57,7 +57,6 @@ exports.signup = AsyncHandler(async function (req, res, next) {
 
 exports.login = AsyncHandler(async function (req, res, next) {
   const { email, password } = req.body;
-  console.log(req.body, 'mmmmmmmmmmmmmmmmmmmm');
 
   if (!email) {
     return next(new ErrorHandler(400, 'Please enter your email'));
@@ -91,12 +90,13 @@ exports.login = AsyncHandler(async function (req, res, next) {
     (err, token) => {
       if (!token || err)
         return next(new ErrorHanddler(400, 'token has not been generated'));
-      sendCookie(res, token);
-      // res.cookie('jwt', token);
+      // sendCookie(res, token);
+      res.cookie('jwt', token);
       res.status(201).json({
         status: 'success',
         data: {
           user,
+          token,
         },
       });
     }
