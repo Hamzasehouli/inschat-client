@@ -1,38 +1,57 @@
+const path = require('path');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 const express = require('express');
-const cors = require('cors');
 const morgan = require('morgan');
-// const path = require('path');
 const userRoutes = require('./routes/userRoutes');
-const authRoutes = require('./routes/authRoutes');
-const messengerRoutes = require('./routes/messengerRoutes');
-const conversationRoutes = require('./routes/conversationRoutes');
+const bookRoutes = require('./routes/bookRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const viewsRoutes = require('./routes/viewsRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const authorRoutes = require('./routes/authorRoutes');
+const wishlistRoutes = require('./routes/wishlistRoutes');
+const emailRoutes = require('./routes/emailRoutes');
+const ErrorHandler = require('./utilities/ErrorHandler');
+const errorController = require('./controllers/errorController.js');
+const cookieParser = require('cookie-parser');
 
 const app = express();
-var corsOptions = {
-  origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
-app.use(cors(corsOptions));
-
 app.use(express.json());
-app.use(express.static('./public'));
-app.use(morgan('tiny'));
+app.use(cookieParser());
+// app.use(express.json({ limit: '10kb' }));
+app.use(mongoSanitize());
+app.use(xss());
+
+// const limiter = rateLimit({
+//   windowMs: 60 * 60 * 1000, // 1h minutes
+//   max: 100, // limit each IP to 100 requests per windowMs
+// });
+
+// //  apply to all requests
+// app.use(limiter);
+app.use(helmet());
+app.disable('x-powered-by');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+app.use(express.static('public'));
+
 app.use(function (req, res, next) {
   console.log(new Date());
+  console.log(req.cookies);
   next();
 });
 
-app.use('/api/v1/messenger', messengerRoutes);
-app.use('/api/v1/user', userRoutes);
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/conversation', conversationRoutes);
+app.use(morgan('tiny'));
 
-app.all('*', (req, res, next) => {
-  next('err');
+app.use('/', viewsRoutes);
+app.use('/api/v1/users', userRoutes);
+
+app.all('*', function (req, res, next) {
+  next(new ErrorHandler(404, 'no such route found on this api '));
 });
 
-app.use((err, req, res, next) => {
-  console.log('err');
-});
+app.use(errorController);
 
 module.exports = app;
