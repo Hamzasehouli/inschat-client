@@ -57,6 +57,7 @@ exports.signup = AsyncHandler(async function (req, res, next) {
 
 exports.login = AsyncHandler(async function (req, res, next) {
   const { email, password } = req.body;
+  console.log(req.body, 'mmmmmmmmmmmmmmmmmmmm');
 
   if (!email) {
     return next(new ErrorHandler(400, 'Please enter your email'));
