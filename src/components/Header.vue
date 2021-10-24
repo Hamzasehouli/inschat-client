@@ -1,7 +1,7 @@
 <template>
-  <div><h1>Header</h1></div>
+  <header></header>
 </template>
 <script>
 export default {};
 </script>
-<style lang=""></style>
+<style scoped lang="scss"></style>

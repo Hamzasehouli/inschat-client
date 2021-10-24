@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <h4>footer</h4>
-  </div>
+  <form>
+    <slot></slot>
+  </form>
 </template>
 <script>
-export default {
-  setup() {},
-};
+export default {};
 </script>
 <style scoped lang="scss"></style>
