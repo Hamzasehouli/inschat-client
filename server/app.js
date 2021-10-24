@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const messengerRoutes = require('./routes/messengerRoutes');
+const conversationRoutes = require('./routes/conversationRoutes');
 
 const app = express();
 var corsOptions = {
@@ -24,6 +25,7 @@ app.use(function (req, res, next) {
 app.use('/api/v1/messenger', messengerRoutes);
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/conversation', conversationRoutes);
 
 app.all('*', (req, res, next) => {
   next('err');
