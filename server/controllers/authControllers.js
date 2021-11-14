@@ -6,23 +6,19 @@ const User = require('../models/userModel.js');
 
 const sendCookie = function (res, token) {
   res.cookie('jwt', token, {
-    // secure: process.env.NODE_ENV === 'production' ? true : false,
-    // httpOnly: true,
-    expires: 60 * 60 * 1000,
+    maxAge: 60 * 60 * 1000,
   });
 };
 
 exports.signup = AsyncHandler(async function (req, res, next) {
   const obj = {
     gender: req.body.gender,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    userName: req.body.userName,
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    username: req.body.username,
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
-    acceptConditions: req.body.acceptConditions,
-    acceptNewletter: req.body.acceptNewletter,
   };
 
   const user = await User.create(obj);
@@ -49,6 +45,7 @@ exports.signup = AsyncHandler(async function (req, res, next) {
         status: 'success',
         data: {
           user,
+          token,
         },
       });
     }

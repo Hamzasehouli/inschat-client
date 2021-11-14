@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema(
       required: [true, 'please enter your gender'],
     },
     image: String,
-    firstName: {
+    firstname: {
       type: String,
       required: [true, 'Please enter your first name'],
       validate: {
@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
         message: 'fail',
       },
     },
-    lastName: {
+    lastname: {
       type: String,
       required: [true, 'Please enter your last name'],
       validate: {
@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema(
         message: 'fail',
       },
     },
-    userName: {
+    username: {
       type: String,
       required: [true, 'Please add a username'],
       unique: true,
@@ -70,9 +70,9 @@ const userSchema = new mongoose.Schema(
           return (
             val > 8 ||
             val < 20 ||
-            !val.includes(this.firstName) ||
-            !val.includes(this.lastName) ||
-            !val.includes(this.userName)
+            !val.includes(this.firstname) ||
+            !val.includes(this.lastname) ||
+            !val.includes(this.username)
           );
         },
         message:
@@ -88,9 +88,9 @@ const userSchema = new mongoose.Schema(
       validate: {
         validator(val) {
           return (
-            !val.includes(this.firstName) ||
-            !val.includes(this.lastName) ||
-            !val.includes(this.userName) ||
+            !val.includes(this.firstname) ||
+            !val.includes(this.lastname) ||
+            !val.includes(this.username) ||
             this.password === val
           );
         },
@@ -141,9 +141,9 @@ userSchema.virtual('cart', {
 });
 
 userSchema.pre('save', async function (next) {
-  this.firstName = lowercaseNames(this.firstName);
-  this.lastName = lowercaseNames(this.lastName);
-  this.userName = this.userName.trim().toLowerCase();
+  this.firstname = lowercaseNames(this.firstname);
+  this.lastname = lowercaseNames(this.lastname);
+  this.username = this.username.trim().toLowerCase();
   this.email = this.email.toLowerCase();
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 12);
@@ -174,9 +174,9 @@ userSchema.pre('save', async function (next) {
   // }
 
   // if (
-  //   this.password.includes(this.firstName) ||
-  //   this.password.includes(this.lastName) ||
-  //   this.password.includes(this.userName)
+  //   this.password.includes(this.firstname) ||
+  //   this.password.includes(this.lastname) ||
+  //   this.password.includes(this.username)
   // ) {
   //   return next(
   //     new ErrorHandler(
@@ -186,9 +186,9 @@ userSchema.pre('save', async function (next) {
   //   );
   // }
   // if (
-  //   this.confirmPassword.includes(this.firstName) ||
-  //   this.confirmPassword.includes(this.lastName) ||
-  //   this.confirmPassword.includes(this.userName)
+  //   this.confirmPassword.includes(this.firstname) ||
+  //   this.confirmPassword.includes(this.lastname) ||
+  //   this.confirmPassword.includes(this.username)
   // ) {
   //   return next(
   //     new ErrorHandler(
