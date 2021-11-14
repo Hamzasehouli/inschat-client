@@ -1,4 +1,4 @@
-<template lang="">
+<template>
   <section class="main-page">
     <Formbase
       :style="{
@@ -6,6 +6,15 @@
       }"
       @submit.prevent="submitForm"
     >
+      <teleport to="body">
+        <transition>
+          <alert v-if="err" state="error" :message="message"></alert>
+          <alert
+            v-else-if="succ"
+            state="success"
+            :message="message"
+          ></alert> </transition
+      ></teleport>
       <div class="form__control">
         <label class="form__label">Gender</label>
       </div>
@@ -84,14 +93,20 @@
 </template>
 <script>
 import Formbase from "../components/Formbase.vue";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 export default {
   components: { Formbase },
   setup() {
     const router = useRouter();
+    const store = useStore();
+    console.log(store);
     const gender = ref("male");
     const isLoading = ref(false);
+    const error = ref(null);
+    const success = ref(null);
+    const message = ref("");
     const firstname = ref("");
     const lastname = ref("");
     const username = ref("");
@@ -180,10 +195,21 @@ export default {
         });
         const data = await res.json();
         if (res.ok) {
-          console.log(data.data.token);
           document.cookie = `jwt=${data.data.token}`;
-          router.replace("/");
+          success.value = true;
+          message.value = "You have signed up successfully";
+          store.dispatch("user/setIsLoggedin", true);
+          setTimeout(() => {
+            router.replace({ name: "Home" });
+          }, 2000);
+          error.value = null;
         } else {
+          error.value = true;
+          success.value = "";
+          message.value = "Signup failed, please try again";
+          setTimeout(() => {
+            error.value = false;
+          }, 2000);
         }
         gender.value = "male";
         firstname.value = "";
@@ -195,8 +221,19 @@ export default {
       }
       isLoading.value = false;
     };
+    const err = computed(() => {
+      return error.value;
+    });
+    const succ = computed(() => {
+      return success.value;
+    });
     return {
+      err,
+      succ,
       isLoading,
+      err,
+      success,
+      message,
       gender,
       firstname,
       lastname,

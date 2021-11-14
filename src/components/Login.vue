@@ -48,8 +48,6 @@ export default {
         messageId: "hamza",
         message: "alhamdoula alkhawa fayen had ghbor",
       });
-      console.log(email.value);
-      console.log(password.value);
 
       const res = await fetch("http://localhost:8000/api/v1/users/login", {
         method: "POST",
@@ -62,17 +60,19 @@ export default {
       });
 
       const data = await res.json();
+      console.log(data);
 
       if (res.ok) {
         success.value = true;
+        document.cookie = `jwt=${data.data.token}`;
         message.value = "hahaah";
+        store.dispatch("user/setIsLoggedin", true);
         setTimeout(() => {
           router.replace({ name: "Home" });
         }, 2000);
         error.value = null;
       } else {
         error.value = true;
-        success.value = "";
         success.value = "";
         message.value = "kakaakka";
         setTimeout(() => {

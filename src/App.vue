@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header v-if="path !== '/'"></Header>
+    <Header v-if="path !== '/login' && path !== '/signup'"></Header>
     <router-view></router-view>
     <Footer v-if="path !== '/'"></Footer>
   </main>
