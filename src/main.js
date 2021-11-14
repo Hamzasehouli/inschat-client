@@ -20,9 +20,9 @@ socket.on("disconnect", () => {
 
 const app = createApp(App);
 
-app.component("base-btn", BaseBtn);
-app.component("alert", Alert);
 app.use(router);
 app.use(store);
+app.component("base-btn", BaseBtn);
+app.component("alert", Alert);
 
 router.isReady().then(() => app.mount("#app"));

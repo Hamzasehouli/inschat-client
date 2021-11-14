@@ -18,6 +18,18 @@ export default createRouter({
       component: () => import("../views/Main.vue"),
     },
     {
+      name: "Profile",
+      path: "/profile",
+      beforeEnter: (to, from, next) => {
+        if (store.getters["user/getIsLoggedin"]) {
+          next();
+        } else {
+          next({ name: "Login" });
+        }
+      },
+      component: () => import("../views/Profile.vue"),
+    },
+    {
       name: "Signup",
       path: "/signup",
       beforeEnter: (to, from, next) => {

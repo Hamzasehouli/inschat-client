@@ -55,7 +55,8 @@ export default {
 }
 
 .outline {
-  border: 1px solid var(--color-primary);
+  // border: 1px solid white !important;
+  color: white;
 }
 
 .standard {

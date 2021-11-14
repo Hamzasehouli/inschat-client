@@ -1,7 +1,7 @@
 <template>
   <section class="main-page">
     <!-- <div class="welcome">Inschat</div> -->
-    <Login></Login>
+  
   </section>
 </template>
 <script>

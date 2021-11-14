@@ -1,32 +1,34 @@
 <template>
-  <Formbase @submit.prevent="submitForm">
-    <teleport to="body">
-      <transition>
-        <alert v-if="err" state="error" :message="message"></alert>
-        <alert
-          v-else-if="succ"
-          state="success"
-          :message="message"
-        ></alert> </transition
-    ></teleport>
-    <div class="form__control">
-      <label class="form__label">Email</label>
-      <input v-model="email" type="email" class="form__input" />
-    </div>
-    <div class="form__control">
-      <label class="form__label">Password</label>
-      <input v-model="password" type="password" class="form__input" />
-    </div>
-    <base-btn state="btn" styl="flat" typ="submit" class="form__btn"
-      >Login</base-btn
-    >
-    <base-btn class="form__btn" styl="standard" :path="{ name: 'Signup' }"
-      >Do not have an account? Create one</base-btn
-    >
-    <base-btn class="form__btn" styl="standard" :path="{ name: 'Signup' }"
-      >Forget password ?</base-btn
-    >
-  </Formbase>
+  <section class="main-page">
+    <Formbase @submit.prevent="submitForm">
+      <teleport to="body">
+        <transition>
+          <alert v-if="err" state="error" :message="message"></alert>
+          <alert
+            v-else-if="succ"
+            state="success"
+            :message="message"
+          ></alert> </transition
+      ></teleport>
+      <div class="form__control">
+        <label class="form__label">Email</label>
+        <input v-model="email" type="email" class="form__input" />
+      </div>
+      <div class="form__control">
+        <label class="form__label">Password</label>
+        <input v-model="password" type="password" class="form__input" />
+      </div>
+      <base-btn state="btn" styl="flat" typ="submit" class="form__btn"
+        >Login</base-btn
+      >
+      <base-btn class="form__btn" styl="standard" :path="{ name: 'Signup' }"
+        >Do not have an account? Create one</base-btn
+      >
+      <base-btn class="form__btn" styl="standard" :path="{ name: 'Signup' }"
+        >Forget password ?</base-btn
+      >
+    </Formbase>
+  </section>
 </template>
 <script>
 import Formbase from "../components/Formbase.vue";
