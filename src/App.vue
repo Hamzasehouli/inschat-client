@@ -1,8 +1,8 @@
 <template>
   <main>
-    <Header v-if="path !== '/home'"></Header>
+    <Header v-if="path !== '/'"></Header>
     <router-view></router-view>
-    <Footer v-if="path !== '/home'"></Footer>
+    <Footer v-if="path !== '/'"></Footer>
   </main>
 </template>
 
@@ -47,10 +47,43 @@ html {
   font-size: 62.5%;
 }
 body {
+  box-sizing: border-box;
   font-family: "Lato", sans-serif;
   font-size: 1.6rem;
   text-rendering: optimizeLegibility;
   max-width: 1420px;
   margin: 0 auto;
+}
+
+a,
+input,
+button {
+  font-size: inherit;
+}
+
+button,
+input {
+  outline: none;
+  border: none;
+}
+
+button {
+  cursor: pointer;
+  background: transparent;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+.main-page {
+  min-height: 100vh;
+  background: rgb(238, 238, 238);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
