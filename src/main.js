@@ -12,6 +12,8 @@ socket.on("connect", () => {
   console.log(socket.id); // x8WIv7-mJelg7on_ALbx
 });
 
+//mm
+
 socket.on("disconnect", () => {
   console.log(socket.id); // undefined
 });
